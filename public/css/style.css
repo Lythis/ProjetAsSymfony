@@ -1,0 +1,21 @@
+header{
+    height: 200px;
+}
+
+.login_form{
+    margin-left: 15%;
+    margin-top: 1%;
+}
+
+.btn-mdp{
+    display: flex;
+}
+
+.container-login{
+    display: flex;
+}
+
+.inscription_link{
+    margin-left: 15%;
+    margin-top: 1%;
+}

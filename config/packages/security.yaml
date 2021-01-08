@@ -11,13 +11,15 @@ security:
                 property: 'email'
     firewalls:
         main:
-            anonymous: false
+            anonymous: true
             lazy: true
             form_login:
-                login_path: login
-                check_path: login
+                login_path: app_login
+                check_path: app_login
             logout:
                 path: app_logout
+                # where to redirect after logout
+                target: app_login
 
             guard:
                 authenticators:
