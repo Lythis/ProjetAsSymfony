@@ -3,9 +3,61 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
+        {% endblock %}
     </head>
     <body>
+        <header>
+            <div class="headerBanner">
+                <div class="headerCenterElements">
+                    <div class="headerLogoElement">
+                        <span class="headerLogoText">LOGO</span>
+                    </div>
+                    <div class="headerMainMenu">
+                        <span class="headerMainMenuElementFirst">ACCUEIL</span>
+                        <span class="headerMainMenuElement">ÉVÉNEMENTS</span>
+                    </div>
+                    <div class="headerSignInElement">
+                        <img class="headerSignInLogo" src="img/sign_in.png">
+                        <span class="headerSignInText">S'IDENTIFIER</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <footer>
+            <div class="footerBanner">
+                <div class="footerCenterElements">
+                    <div class="footerAssociation">
+                        <p><b>Association Sportive Saint-Vincent</b></p>
+                        <p class="p-nomargin footerSmallText">30 rue de Meaux,</p>
+                        <p class="p-normargin-top footerSmallText">60300 Senlis</p>
+                        <p class="p-nomargin-bottom"><b>Association Saint-Vincent</b></p>
+                        <p class="p-normargin-top footerSmallText">https://www.lycee-stvincent.fr/</p>
+                    </div>
+                    <div class="footerContact">
+                        <p><b>Nous contacter</b></p>
+                        <p class="p-nomargin footerSmallText">Tél : 03 66 66 66 66</p>
+                        <p class="p-nomargin footerSmallText">Fax : 03 66 66 66 66</p>
+                        <p class="p-nomargin footerSmallText">Email : contact@lyceestvincent.fr</p>
+                        <p class="p-nomargin footerSmallText">Web : https://asso-sport.lyceestvincent.fr</p>
+                    </div>
+                    <div class="footerAccess">
+                        <p><b>Accès rapide</b></p>
+                        <p class="p-nomargin footerSmallText">> Accueil</p>
+                        <p class="p-nomargin footerSmallText">> Actualités</p>
+                        <p class="p-nomargin footerSmallText">> Événements</p>
+                        <p class="p-nomargin footerSmallText">> Contact</p>
+                    </div>
+                    <div class="footerFollow">
+                        <p><b>Suivez-nous</b></p>
+                        <img class="footerTwitterLogo" src="img/twitter.png">
+                        <img class="footerFacebookLogo" src="img/facebook.png">
+                    </div>
+                </div>
+            </div>
+        </footer>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
