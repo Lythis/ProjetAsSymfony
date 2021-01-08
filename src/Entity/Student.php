@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=StudentRepository::class)
  */
-class Student
+class Student 
 {
     /**
      * @ORM\Id
@@ -20,10 +21,11 @@ class Student
     /**
      * @ORM\Column(type="datetime")
      */
-    private $birthDate;
+    private DateTimeInterface $birthDate;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $firstName;
 
@@ -34,7 +36,7 @@ class Student
 
     /**
      * @ORM\OneToOne(targetEntity=Category::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $category;
 
