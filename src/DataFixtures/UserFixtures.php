@@ -3,6 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Entity\Student;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -18,7 +20,23 @@ final class UserFixtures extends Fixture
     }
     public function load(ObjectManager $manager)
     {
-        for ($i = 1; $i < 25; $i++) {
+        
+
+       $user
+            ->setEmail('morgan60127@gmail.com');    
+
+    for ($i = 1; $i < 10; $i++) {
+            $student = new Student();
+            
+            $student
+                ->setFirstName('jean'.$i)
+                ->setLastName('louis'.$i)
+                ->setBirthDate(new DateTime('2000-04-02'));
+        }
+
+        $manager->flush();
+
+        for ($i = 1; $i < 2; $i++) {
             $user = new User();
             $password = '123';
 

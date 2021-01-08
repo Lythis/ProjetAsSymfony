@@ -26,10 +26,12 @@ class ResetPasswordController extends AbstractController
     use ResetPasswordControllerTrait;
 
     private $resetPasswordHelper;
+    private $swiftMailer;
 
-    public function __construct(ResetPasswordHelperInterface $resetPasswordHelper)
+    public function __construct(ResetPasswordHelperInterface $resetPasswordHelper, \Swift_Mailer $swiftMailer)
     {
         $this->resetPasswordHelper = $resetPasswordHelper;
+        $this->swiftMailer = $swiftMailer;
     }
 
     /**
@@ -138,7 +140,7 @@ class ResetPasswordController extends AbstractController
 
         // Marks that you are allowed to see the app_check_email page.
         $this->setCanCheckEmailInSession();
-
+        
         // Do not reveal whether a user account was found or not.
         if (!$user) {
             return $this->redirectToRoute('app_check_email');
@@ -159,17 +161,18 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $email = (new TemplatedEmail())
-            ->from(new Address('Groupe6Association@gmail.com', 'Association Sportive St-Vincent'))
-            ->to($user->getEmail())
-            ->subject('UwU changement de mot de passe O_O')
-            ->htmlTemplate('reset_password/email.html.twig')
-            ->context([
-                'resetToken' => $resetToken,
-            ])
-        ;
+        $message = (new \Swift_Message())
+            ->setFrom('Groupe6Association@gmail.com')
+            ->setTo($user->getEmail())
+            ->setSubject('UwU changement de mot de passe O_O')
+            ->setBody(
+                $this->renderView('reset_password/email.html.twig', 
+                ['resetToken' => $resetToken]
+            ),
+            'text/html'
+        );        
 
-        $mailer->send($email);
+        $this->swiftMailer->send($message);
 
         return $this->redirectToRoute('app_check_email');
     }
