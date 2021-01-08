@@ -21,10 +21,6 @@ final class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         
-
-       $user
-            ->setEmail('morgan60127@gmail.com');    
-
     for ($i = 1; $i < 10; $i++) {
             $student = new Student();
             
