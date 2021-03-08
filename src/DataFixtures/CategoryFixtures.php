@@ -7,8 +7,7 @@ use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
- 
- 
+
 final class CategoryFixtures extends Fixture
 {
     private $encoder;
@@ -24,7 +23,7 @@ final class CategoryFixtures extends Fixture
         foreach ($categories as $categoryLabel)
         {
             $category = new Category();
-            
+
             $category->setLabel($categoryLabel);
             $manager->persist($category);
         }
