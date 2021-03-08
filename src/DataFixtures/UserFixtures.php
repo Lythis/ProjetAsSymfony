@@ -8,8 +8,7 @@ use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
- 
- 
+
 final class UserFixtures extends Fixture
 {
     private $encoder;
@@ -20,31 +19,54 @@ final class UserFixtures extends Fixture
     }
     public function load(ObjectManager $manager)
     {
+        // Elèves
+        $studentList = [];
+        $userList = [];
         
-        for ($i = 1; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
+            $user = new User();
             $student = new Student();
+
+            $user->setPassword($this->encoder->encodePassword($user, random_int(1000, 10000)));
             
-            $student
-                ->setFirstName('jean'.$i)
-                ->setLastName('louis'.$i)
-                ->setBirthDate(new DateTime('2000-04-02'));
+            $student->setFirstName('Jean'.($i + 1))
+            ->setLastName('Louis'.($i + 1))
+            ->setBirthDate($this->getRandomDate())
+            ->setUser($user->id);
+            array_push($studentList, $student);
+
+            $manager->persist($student);
         }
 
-        $manager->flush();
+        foreach ($studentList as $key => $student)
+        {
+            $user = $userList[$key];
+            $user->setEmail($student->getFirstName().$student->getLastName().'@gmail.com')
+            ->setRole('student');
 
-        for ($i = 1; $i < 2; $i++) {
-            $user = new User();
-            $password = '123';
-
-            $user
-                ->setEmail('user-'.$i.'@gmail.com');
-  
-
-            // Encode le mot de passe et l'insère dans le champ "password".
-            $user->setPassword($this->encoder->encodePassword($user, $password));
             $manager->persist($user);
         }
 
+        // Admins
+        for ($i = 0; $i < 5; $i++) {
+            $admin = new User();
+
+            $admin->setEmail('user-admin-'.($i + 1).'@gmail.com')
+            ->setPassword($this->encoder->encodePassword($admin, 'root'))
+            ->setRole('admin');
+
+            $manager->persist($admin);
+        }
+
         $manager->flush();
+    }
+
+    public function getRandomDate()
+    {
+        $year = random_int(1990, 2000);
+        $month = random_int(1, 12);
+        $day = random_int(1, 25);
+
+        return new DateTime($year.'-'.$month.'-'.$day);
     }
 }
