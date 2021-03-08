@@ -27,4 +27,14 @@ class EventController extends AbstractController
             
         ]);
     }
+
+    /**
++   * @Route("/event/edit")
++   */
+public function editEvent(): Response
+{
+    return $this->render('event\edit.html.twig', [
+        
+    ]);
+}
 }
