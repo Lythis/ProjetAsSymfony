@@ -35,7 +35,7 @@ final class UserFixtures extends Fixture
             $student->setFirstName('Jean'.($i + 1))
             ->setLastName('Louis'.($i + 1))
             ->setBirthDate($this->getRandomDate())
-            ->setUser($user->getId());
+            ->setUser($user);
             array_push($studentList, $student);
 
             $manager->persist($student);
