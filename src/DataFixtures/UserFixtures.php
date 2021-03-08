@@ -29,10 +29,13 @@ final class UserFixtures extends Fixture
 
             $user->setPassword($this->encoder->encodePassword($user, random_int(1000, 10000)));
             
+            array_push($userList, $user);
+            $manager->persist($user);
+
             $student->setFirstName('Jean'.($i + 1))
             ->setLastName('Louis'.($i + 1))
             ->setBirthDate($this->getRandomDate())
-            ->setUser($user->id);
+            ->setUser($user->getId());
             array_push($studentList, $student);
 
             $manager->persist($student);
