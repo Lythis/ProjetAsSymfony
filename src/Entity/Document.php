@@ -37,6 +37,18 @@ class Document
      */
     private $addedDate;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Event::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $event;
+
+    /**
+     * @ORM\OneToOne(targetEntity=DocumentCategory::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +98,30 @@ class Document
     public function setAddedDate(\DateTimeInterface $addedDate): self
     {
         $this->addedDate = $addedDate;
+
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(Event $event): self
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    public function getCategory(): ?DocumentCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(DocumentCategory $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

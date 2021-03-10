@@ -1,1 +1,53 @@
 {% extends "base.html.twig" %}
+{% block body %}
+{{ form_start(eventForm) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <div class="mb-2">
+                    <label>Nom</label>
+                    {{ form(eventForm.name) }}
+                </div>
+                <div class="mb-2">
+                    <label>Nombre de places</label>
+                    {{ form(eventForm.numberPlace) }}
+                </div>
+                <div class="mb-2">
+                    <label>Date</label>
+                    {{ form(eventForm.date) }}
+                </div>
+                <div class="mb-2">
+                    <label>Catégorie</label>
+                    {{ form(eventForm.category) }}
+                </div>
+                <div class="mb-2">
+                    <label>Sport associé</label>
+                    {{ form(eventForm.sport) }}
+                </div>
+                <div class="mb-2">
+                    <label>Type</label>
+                    {{ form(eventForm.type) }}
+                </div>
+                <div class="mb-2">
+                    <label>Image</label>
+                    {{ form(eventForm.image) }}
+                </div>
+                <div class="mb-2">
+                    <label>Thumbnail</label>
+                    {{ form(eventForm.thumbnail) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="mb-2">
+                    <label>Description</label>
+                    {{ form(eventForm.description) }}
+                </div>
+            </div>
+            <div class="mb-2">
+                {{ form(eventForm._token) }}
+                {{ form_widget(eventForm.submit, { 'label': 'Enregistrer' }) }}
+            </div>
+        </div>
+    </div>
+{{ form_end(eventForm) }}
+{% endblock %}
