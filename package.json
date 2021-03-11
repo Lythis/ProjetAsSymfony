@@ -16,5 +16,8 @@
         "make-sass-dev-watch": "encore dev --watch",
         "make-sass": "encore production",
         "make-sass-watch": "encore production --watch"
+    },
+    "dependencies": {
+        "bootstrap-icons": "^1.4.0"
     }
 }
