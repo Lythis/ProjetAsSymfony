@@ -2,32 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Event;
+use App\Entity\Sport;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EventEditType extends AbstractType
+class SportType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('date')
-            ->add('numberPlace')
-            ->add('image')
-            ->add('thumbnail')
-            ->add('sport')
-            ->add('type')
-            ->add('category')
+            ->add('label')
+            ->add('submit', SubmitType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Event::class,
+            'data_class' => Sport::class,
         ]);
     }
 }

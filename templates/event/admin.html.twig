@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    {% block navAdmin %}
+
+    {% endblock navAdmin %}
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Nombre de place</th>
+            <th scope="col">Sport</th>
+            <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+                <tr>
+                    <th scope="row">{{ event.id }}</th>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.numberPlace }}</td>
+                    <td>{{ event.description }}</td>
+                    <td>
+                        <a href="{{ path('event-delete', {'id':event.id})}}" class="btn btn-danger">Delete</a>
+                        <a href="{{ path('event-edit', {'id':event.id})}}" class="btn btn-primary">Modif</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>   
+    <a  href="{{ path('event_create_page') }}" class="btn btn-primary">Ajout event</a>
+{% endblock body %}
