@@ -9,11 +9,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/event")
+ */
 class EventController extends AbstractController
 {
     /**
-+   * @Route("/event/create")
-+   */
+    * @Route("/create", name="event_create_page")
+    */
     public function createEvent(Request $request): Response
     {
         $event = new Event();
@@ -28,31 +31,30 @@ class EventController extends AbstractController
             $manager->persist($event);
             $manager->flush();
 
-            return $this->redirectToRoute('event\create.html.twig');
+            return $this->redirectToRoute("event_create_page");
         }
 
-        return $this->render('event\create.html.twig', [
+        return $this->render('event/create.html.twig', [
             'eventForm' => $form->createView(),
-            'csrf_protection' => false,
         ]);
     }
 
     /**
-+   * @Route("/event/delete")
-+   */
+    * @Route("/delete", name="event_delete_page")
+    */
     public function removeEvent(): Response
     {
-        return $this->render('event\delete.html.twig', [
+        return $this->render('event/delete.html.twig', [
             
         ]);
     }
 
     /**
-+   * @Route("/event/edit")
-+   */
+    * @Route("/edit", name="event_edit_page")
+    */
     public function editEvent(): Response
     {
-        return $this->render('event\edit.html.twig', [
+        return $this->render('event/edit.html.twig', [
             
         ]);
     }

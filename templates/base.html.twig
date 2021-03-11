@@ -6,7 +6,7 @@
         {% block stylesheets %}
             <link href="{{ asset('build/css/app.css') }}" type="text/css" rel="stylesheet" />
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
         {% endblock %}
     </head>
     <body>
@@ -34,11 +34,13 @@
             </nav>
         </header>
 
-        {% block body %}
+        <div id="body">
+            {% block body %}
 
-        {% endblock %}
+            {% endblock %}
+        </div>
 
-        <footer class="bottom-0 start-0 end-0 h-auto w-100 container-fluid" style="background-color: black;">
+        <footer class="bottom-0 start-0 end-0 h-auto w-100 container-fluid sticky-bottom" style="background-color: black;">
             <div class="row justify-content-center py-3 mt-2">
                 <div class="col-xl-2 col-md-3 col-sm-6 col-12 pb-xl-0 pb-sm-2 pb-3">
                     <p class="text-white mb-1"><b>Association Sportive Saint-Vincent</b></p>
@@ -76,10 +78,10 @@
                 </div>
             </div>
         </footer>
-        
+
         {% block javascripts %}
             <script src="{{ asset('build/js/app.js') }}"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
         {% endblock %}
     </body>
-</html> 
+</html>

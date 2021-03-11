@@ -38,29 +38,29 @@ class Event
     private $numberPlace;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $thumbnail;
 
     /**
-     * @ORM\OneToOne(targetEntity=Sport::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Sport::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $sport;
 
     /**
-     * @ORM\OneToOne(targetEntity=Type::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Type::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;
 
     /**
-     * @ORM\OneToOne(targetEntity=Category::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Category::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
@@ -147,7 +147,7 @@ class Event
         return $this->sport;
     }
 
-    public function setSport(Sport $sport): self
+    public function setSport(?Sport $sport): self
     {
         $this->sport = $sport;
 
@@ -159,7 +159,7 @@ class Event
         return $this->type;
     }
 
-    public function setType(Type $type): self
+    public function setType(?Type $type): self
     {
         $this->type = $type;
 
@@ -171,7 +171,7 @@ class Event
         return $this->category;
     }
 
-    public function setCategory(Category $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 
