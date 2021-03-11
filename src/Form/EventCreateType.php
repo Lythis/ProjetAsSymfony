@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,10 +22,15 @@ class EventCreateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description', TextareaType::class)
+            ->add('name', TextType::class, [
+                'required' => true,
+            ])
+            ->add('description', TextareaType::class, [
+                'required' => true,
+            ])
             ->add('date', DateType::class, [
-                'format' => 'dd-MM-yyyy',
+                'widget' => 'single_text',
+                'required' => true,
             ])
             ->add('numberPlace')
             ->add('image', FileType::class, [
@@ -38,6 +44,7 @@ class EventCreateType extends AbstractType
                         'mimeTypesMessage' => 'Veillez selectionner une image au format .png ou .jpg',
                     ])
                 ],
+                'required' => true,
             ])
             ->add('thumbnail', FileType::class, [
                 'constraints' => [
@@ -50,18 +57,22 @@ class EventCreateType extends AbstractType
                         'mimeTypesMessage' => 'Veillez selectionner une image au format .png ou .jpg',
                     ])
                 ],
+                'required' => true,
             ])
             ->add('sport', EntityType::class, [
                 'class' => Sport::class,
                 'choice_label' => 'label',
+                'required' => true,
             ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
                 'choice_label' => 'label',
+                'required' => true,
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'label',
+                'required' => true,
             ])
             ->add('submit', SubmitType::class)
         ;
