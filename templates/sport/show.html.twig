@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    {% block navAdmin %}
+
+    {% endblock navAdmin %}
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">label</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sport in sports %}
+                <tr>
+                    <td>{{ sport.id }}</td>
+                    <td>{{ sport.label }}</td>
+                    <td>
+                        <a href="#" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>   
+{% endblock body %}

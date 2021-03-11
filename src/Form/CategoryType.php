@@ -2,32 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Event;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class EventDeleteType extends AbstractType
+
+class CategoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('date')
-            ->add('numberPlace')
-            ->add('image')
-            ->add('thumbnail')
-            ->add('sport')
-            ->add('type')
-            ->add('category')
+            ->add('label')
+            ->add('submit', SubmitType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Event::class,
+            'data_class' => Category::class,
         ]);
     }
 }

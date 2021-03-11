@@ -20,14 +20,17 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active text-white" aria-current="page" href="#">Acceuil</a>
+                                <a class="nav-link active text-white" aria-current="page" href="{{ path('home_page')}}">Acceuil</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="#">Evénements</a>
+                                <a class="nav-link text-white" href="{{ path('event_show')}}">Evénements</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="{{ path('event_admin')}}">Administrateur</a>
                             </li>
                         </ul>
                         <form class="nav-item d-flex">
-                            <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Connexion</a>
+                            <a class="nav-link" href="{{ path('app_login')}}" tabindex="-1" aria-disabled="true">Connexion</a>
                         </form>
                     </div>
                 </div>

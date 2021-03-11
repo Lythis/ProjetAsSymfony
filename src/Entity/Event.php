@@ -60,7 +60,7 @@ class Event
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Category::class,inversedBy="event",cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
