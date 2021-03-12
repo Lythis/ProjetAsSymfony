@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @Route("/event")
@@ -109,6 +109,12 @@ class EventController extends AbstractController
     */
     public function editEvent(Event $event, Request $request, EntityManagerInterface $em)
     {
+        $image = "img/".$event->getImage();
+        $thumbnail = "thumbnail/".$event->getThumbnail();
+        $event->setImage(new File($image));
+        $event->setThumbnail(new File($thumbnail));
+
+        dd($event);
         $form = $this->createForm(EventCreateType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
