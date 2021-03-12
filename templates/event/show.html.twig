@@ -1,1 +1,36 @@
 {% extends "base.html.twig" %}
+
+{# {% for $events as $event %} #}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-2">
+            <span>XX événements</span>
+        </div>
+        <div class="col-2">
+            <label class="form-check-label" for="category">
+                Catégorie :
+            </label>
+            <select id="category" class="form-control">
+                <option>Tous</option>
+            </select>
+        </div>
+        <div class="col-2 row">
+            <label class="form-check-label" for="sport">
+                Sport :
+            </label>
+            <select id="sport" class="form-control">
+                <option>Tous</option>
+            </select>
+        </div>
+        <div class="col-1 form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="actifs" value="option1" checked>
+            <label class="form-check-label" for="actifs">
+                Actifs
+            </label>
+        </div>
+        <div class="col-1">
+            <button type="button" class="btn btn-primary">Confirmer</button>
+        </div>
+    </div>
+{% endblock %}

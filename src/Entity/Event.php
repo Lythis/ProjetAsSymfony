@@ -49,19 +49,19 @@ class Event
 
     /**
      * @ORM\ManyToOne(targetEntity=Sport::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $sport;
 
     /**
      * @ORM\ManyToOne(targetEntity=Type::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class,inversedBy="event",cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $category;
 
