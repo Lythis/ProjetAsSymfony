@@ -31,12 +31,16 @@ class EventController extends AbstractController
     }
 
     /**
-    * @Route("/events", name="event_show")
+    * @Route("/eventShow", name="event_show")
     */
     public function eventShow(Request $request): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
 
         return $this->render('event/show.html.twig', [
+            'events' => $events
         ]);
     }
 
@@ -65,6 +69,28 @@ class EventController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $event = $form->getData();
+
+            if (!empty($form['image']->getData()))
+            {
+                $file = $form['image']->getData();
+                $file->move('img', $file->getClientOriginalName());
+                $event->setImage($file->getClientOriginalName());
+            }
+            else
+            {
+                $event->setImage('default.jpg');
+            }
+
+            if (!empty($form['thumbnail']->getData()))
+            {
+                $file = $form['thumbnail']->getData();
+                $file->move('thumbnail', $file->getClientOriginalName());
+                $event->setThumbnail($file->getClientOriginalName());
+            }
+            else
+            {
+                $event->setThumbnail('default.jpg');
+            }
 
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($event);

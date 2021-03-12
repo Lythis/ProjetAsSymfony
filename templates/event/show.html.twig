@@ -1,36 +1,68 @@
 {% extends "base.html.twig" %}
 
-{# {% for $events as $event %} #}
 
 {% block body %}
     <div class="row justify-content-center">
-        <div class="col-2">
-            <span>XX événements</span>
+        <div class="col-xl-2 col-lg-2 col-12">
+            <h2 class="align-middle text-center text-break">{{ events|length }} Evénements</h2>
         </div>
-        <div class="col-2">
-            <label class="form-check-label" for="category">
+        <div class="py-lg-0 py-1 col-xl-3 col-lg-4 col-sm-6 col-12 row">
+            <span class="form-check-label text-center pt-1 col-4">
                 Catégorie :
-            </label>
-            <select id="category" class="form-control">
-                <option>Tous</option>
-            </select>
+            </span>
+            <div class="col-8">
+                <select class="form-control">
+                    <option>Tous</option>
+                </select>
+            </div>
         </div>
-        <div class="col-2 row">
-            <label class="form-check-label" for="sport">
+        <div class="py-lg-0 py-1 col-xl-3 col-lg-4 col-sm-6 col-12 row">
+            <span class="form-check-label text-center pt-1 col-4">
                 Sport :
-            </label>
-            <select id="sport" class="form-control">
-                <option>Tous</option>
-            </select>
+            </span>
+            <div class="col-8">
+                <select class="form-control">
+                    <option>Tous</option>
+                </select>
+            </div>
         </div>
-        <div class="col-1 form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="actifs" value="option1" checked>
-            <label class="form-check-label" for="actifs">
+        <div class="col-xl-1 col-lg-1 col-2 form-check">
+            <input class="form-check-input mt-2" type="radio" name="exampleRadios" id="actifs" value="option1" checked>
+            <label class="form-check-label pt-1" for="actifs">
                 Actifs
             </label>
         </div>
-        <div class="col-1">
+        <div class="col-xl-1 col-lg-1 col-2">
             <button type="button" class="btn btn-primary">Confirmer</button>
         </div>
     </div>
+    {% for event in events %}
+        <div class="row my-2 justify-content-center">
+            <div class="col-10 bg-light card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-2 col-12 d-flex justify-content-center">
+                            <img src="../img/{{ event.image }}" style="height: 125px; width:125px;">
+                        </div>
+                        <div class="col-lg-10 col-12">
+                            <h2 class="mb-0">{{ event.name }}</h2>
+                            <span class="fs-6 text-muted">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                </svg>
+                                {{ event.date|date('d/m/Y') }} |
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                    <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+                                    <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                                </svg>
+                                {{ event.numberPlace }} place{% if event.numberPlace > 1 %}(s){% endif %}</span>
+                            <p class="mt-2 text-break">{{ event.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
