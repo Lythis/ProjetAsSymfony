@@ -45,7 +45,7 @@ class EventController extends AbstractController
     }
 
     /**
-    * @Route("/adminshow/delet/{id}", name="event_delete")
+    * @Route("/adminshow/delete/{id}", name="event_delete")
     */
     public function adminEventDelete(Event $event): Response
     {
@@ -54,7 +54,7 @@ class EventController extends AbstractController
         $entityManager->remove($event);
         $entityManager->flush();
 
-        return new Response("Evenement supprimé");
+        return $this->redirectToRoute("event_admin");
     }
 
     /**

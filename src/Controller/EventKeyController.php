@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Event;
 use App\Entity\Category;
 use App\Entity\Sport;
 use App\Form\SportType;
@@ -42,10 +43,8 @@ class EventKeyController extends AbstractController
     /**
     * @Route("/category", name="category_admin")
     */
-    public function adminCategory(Request $request): Response
+    public function adminCategory(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-
         $categorys = $this->getDoctrine()->getRepository(Category::class)->findAll();
 
         return $this->render('category/show.html.twig', [
@@ -81,10 +80,8 @@ class EventKeyController extends AbstractController
     /**
     * @Route("/sport", name="sport_admin")
     */
-    public function sportShow(Request $request): Response
+    public function sportShow(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-
         $sports = $this->getDoctrine()->getRepository(Sport::class)->findAll();
 
         return $this->render('sport/show.html.twig', [
@@ -92,4 +89,53 @@ class EventKeyController extends AbstractController
         ]);
     }
 
+    /**
+    * @Route("/category/delete/{id}", name="category_delete")
+    */
+    public function categoryDelete(Category $category): Response
+    {
+        $events = $this->getDoctrine()->getRepository(Event::class)->findBy(
+            array('category' => $category->getId()),
+        );
+
+        $manager = $this->getDoctrine()->getManager();
+        foreach ($events as $event)
+        {
+            $event->setCategory(null);
+
+            $manager->persist($event);
+        }
+        $manager->flush();
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($category);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("category_admin");
+    }
+
+    /**
+    * @Route("/sport/delete/{id}", name="sport_delete")
+    */
+    public function sportDelete(Sport $sport): Response
+    {
+        $events = $this->getDoctrine()->getRepository(Event::class)->findBy(
+            array('sport' => $sport->getId()),
+        );
+
+        $manager = $this->getDoctrine()->getManager();
+        foreach ($events as $event)
+        {
+            $event->setSport(null);
+
+            $manager->persist($event);
+        }
+        $manager->flush();
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($sport);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("sport_admin");
+    }
 }
