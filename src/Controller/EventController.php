@@ -19,24 +19,25 @@ class EventController extends AbstractController
     /**
     * @Route("/adminshow", name="event_admin")
     */
-    public function adminEvent(Request $request): Response
+    public function adminEvent(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        if ($this->getUser())
+        {
+            $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
 
-        $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
+            return $this->render('event/admin.html.twig', [
+                'events' => $events
+            ]);
+        }
 
-        return $this->render('event/admin.html.twig', [
-            'events' => $events
-        ]);
+        return $this->redirectToRoute("app_login");
     }
 
     /**
     * @Route("/eventshow", name="event_show")
     */
-    public function eventShow(Request $request): Response
+    public function eventShow(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-
         $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
 
         return $this->render('event/show.html.twig', [
