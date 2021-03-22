@@ -19,10 +19,11 @@
                     <td>{{ sport.id }}</td>
                     <td>{{ sport.label }}</td>
                     <td>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                        <a href="#" class="btn btn-danger">Supprimer</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
-    </table>   
+    </table>
+    <a href="{{ path('sport_create_page') }}" class="btn btn-primary">Ajout sport</a>
 {% endblock body %}

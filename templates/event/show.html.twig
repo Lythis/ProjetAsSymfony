@@ -2,7 +2,7 @@
 
 
 {% block body %}
-    <div class="row justify-content-center">
+    <div class="row justify-content-center w-100">
         <div class="col-xl-2 col-lg-2 col-12">
             <h2 class="align-middle text-center text-break">{{ events|length }} Evénements</h2>
         </div>
@@ -37,7 +37,7 @@
         </div>
     </div>
     {% for event in events %}
-        <div class="row my-2 justify-content-center">
+        <div class="row my-2 justify-content-center w-100">
             <div class="col-10 bg-light card">
                 <div class="card-body">
                     <div class="row">
@@ -57,7 +57,7 @@
                                     <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
                                     <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
                                 </svg>
-                                {{ event.numberPlace }} place{% if event.numberPlace > 1 %}(s){% endif %}</span>
+                                {{ event.numberPlace }} place{% if event.numberPlace > 1 %}s{% endif %}</span>
                             <p class="mt-2 text-break">{{ event.description }}</p>
                         </div>
                     </div>

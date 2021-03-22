@@ -19,7 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 
-class EventCreateType extends AbstractType
+class EditEventType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -50,14 +50,14 @@ class EventCreateType extends AbstractType
                         'maxSize' => '8Mi',
                         'mimeTypes' => [
                             'image/png',
-                            'image/jpeg',
+                            'image/jpg',
                         ],
                         'mimeTypesMessage' => 'Veillez selectionner une image au format .png ou .jpg',
                     ]),
                 ],
                 'required' => false,
                 'label' => 'Image',
-                'data_class' => null,
+                'mapped' => false,
             ])
             ->add('thumbnail', FileType::class, [
                 'constraints' => [
@@ -65,14 +65,14 @@ class EventCreateType extends AbstractType
                         'maxSize' => '8Mi',
                         'mimeTypes' => [
                             'image/png',
-                            'image/jpeg',
+                            'image/jpg',
                         ],
                         'mimeTypesMessage' => 'Veillez selectionner une image au format .png ou .jpg',
                     ]),
                 ],
                 'required' => false,
                 'label' => 'Thumbnail',
-                'data_class' => null,
+                'mapped' => false,
             ])
             ->add('sport', EntityType::class, [
                 'class' => Sport::class,

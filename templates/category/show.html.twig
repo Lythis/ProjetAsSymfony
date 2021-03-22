@@ -19,9 +19,11 @@
                     <td>{{ category.id }}</td>
                     <td>{{ category.label }}</td>
                     <td>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                        <a href="#" class="btn btn-danger">Supprimer</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
-    </table>   {% endblock body %}
+    </table>
+    <a href="{{ path('category_create_page') }}" class="btn btn-primary">Ajout catégorie</a>
+{% endblock body %}

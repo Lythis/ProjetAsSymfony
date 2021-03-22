@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Sport;
+use App\Form\SportType;
 use App\Form\CategoryType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +15,7 @@ class EventKeyController extends AbstractController
 {
 
     /**
-    * @Route("/create/category", name="event_create_category")
+    * @Route("/create/category", name="category_create_page")
     */
     public function createCategory(Request $request): Response
     {
@@ -30,7 +31,7 @@ class EventKeyController extends AbstractController
             $manager->persist($category);
             $manager->flush();
 
-            return $this->redirectToRoute("event_create_category");
+            return $this->redirectToRoute("category_admin");
         }
 
         return $this->render('category/create.html.twig', [
@@ -53,13 +54,13 @@ class EventKeyController extends AbstractController
     }
 
     /**
-    * @Route("/create/Sport", name="event_create_sport")
+    * @Route("/create/sport", name="sport_create_page")
     */
     public function createSport(Request $request): Response
     {
         $sport = new Sport();
 
-        $form = $this->createForm(CategoryType::class, $sport);
+        $form = $this->createForm(SportType::class, $sport);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -69,7 +70,7 @@ class EventKeyController extends AbstractController
             $manager->persist($sport);
             $manager->flush();
 
-            return $this->redirectToRoute("event_create_category");
+            return $this->redirectToRoute("sport_admin");
         }
 
         return $this->render('sport/create.html.twig', [

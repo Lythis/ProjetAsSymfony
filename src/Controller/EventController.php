@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\File;
 class EventController extends AbstractController
 {
     /**
-    * @Route("/adminShow", name="event_admin")
+    * @Route("/adminshow", name="event_admin")
     */
     public function adminEvent(Request $request): Response
     {
@@ -31,7 +31,7 @@ class EventController extends AbstractController
     }
 
     /**
-    * @Route("/eventShow", name="event_show")
+    * @Route("/eventshow", name="event_show")
     */
     public function eventShow(Request $request): Response
     {
@@ -45,7 +45,7 @@ class EventController extends AbstractController
     }
 
     /**
-    * @Route("/adminShow/delet/{id}", name="event-delete")
+    * @Route("/adminshow/delet/{id}", name="event_delete")
     */
     public function adminEventDelete(Event $event): Response
     {
@@ -105,19 +105,35 @@ class EventController extends AbstractController
     }
 
     /**
-    * @Route("/adminShow/edit/{id}", name="event-edit")
+    * @Route("/adminshow/edit/{id}", name="event_edit")
     */
     public function editEvent(Event $event, Request $request, EntityManagerInterface $em)
     {
-        $image = "img/".$event->getImage();
-        $thumbnail = "thumbnail/".$event->getThumbnail();
-        $event->setImage(new File($image));
-        $event->setThumbnail(new File($thumbnail));
-
-        dd($event);
         $form = $this->createForm(EventCreateType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!empty($form['image']->getData()))
+            {
+                $file = $form['image']->getData();
+                $file->move('img', $file->getClientOriginalName());
+                $event->setImage($file->getClientOriginalName());
+            }
+            else
+            {
+                $event->setImage('default.jpg');
+            }
+
+            if (!empty($form['thumbnail']->getData()))
+            {
+                $file = $form['thumbnail']->getData();
+                $file->move('thumbnail', $file->getClientOriginalName());
+                $event->setThumbnail($file->getClientOriginalName());
+            }
+            else
+            {
+                $event->setThumbnail('default.jpg');
+            }
+            
             $em->persist($event);
             $em->flush();
             $this->addFlash('success', 'Article Updated! Inaccuracies squashed!');

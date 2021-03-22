@@ -23,12 +23,12 @@
                     <td>{{ event.numberPlace }}</td>
                     <td>{{ event.description }}</td>
                     <td>
-                        <a href="{{ path('event-delete', {'id':event.id})}}" class="btn btn-danger">Delete</a>
-                        <a href="{{ path('event-edit', {'id':event.id})}}" class="btn btn-primary">Modif</a>
+                        <a href="{{ path('event_delete', {'id':event.id})}}" class="btn btn-danger">Supprimer</a>
+                        <a href="{{ path('event_edit', {'id':event.id})}}" class="btn btn-primary">Modifier</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
-    </table>   
-    <a  href="{{ path('event_create_page') }}" class="btn btn-primary">Ajout event</a>
+    </table>
+    <a href="{{ path('event_create_page') }}" class="btn btn-primary">Ajout event</a>
 {% endblock body %}

@@ -27,7 +27,7 @@ final class UserFixtures extends Fixture
             $user = new User();
             $student = new Student();
 
-            $user->setPassword($this->encoder->encodePassword($user, random_int(1000, 10000)));
+            $user->setPassword($this->encoder->encodePassword($user, 12345));
             
             array_push($userList, $user);
             $manager->persist($user);

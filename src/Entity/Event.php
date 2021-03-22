@@ -48,19 +48,19 @@ class Event
     private $thumbnail;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Sport::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Sport::class, cascade={"persist", "refresh"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $sport;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Type::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Type::class, cascade={"persist", "refresh"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class,inversedBy="event",cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Category::class,inversedBy="event",cascade={"persist", "refresh"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $category;
