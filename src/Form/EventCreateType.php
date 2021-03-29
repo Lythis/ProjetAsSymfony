@@ -79,18 +79,24 @@ class EventCreateType extends AbstractType
                 'choice_label' => 'label',
                 'required' => true,
                 'label' => 'Sport associé',
+                'empty_data' => null,
+                'placeholder' => 'Aucun',
             ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
                 'choice_label' => 'label',
                 'required' => true,
                 'label' => 'Type',
+                'empty_data' => null,
+                'placeholder' => 'Aucun',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'label',
                 'required' => true,
                 'label' => 'Catégorie',
+                'empty_data' => null,
+                'placeholder' => 'Aucun',
             ])
             ->add('submit', SubmitType::class)
         ;

@@ -145,8 +145,12 @@ class EventController extends AbstractController
             {
                 return $this->redirectToRoute("event_show");
             }
+            
+            $image = $event->getImage();
+            $thumbnail = $event->getThumbnail();
 
             $form = $this->createForm(EventCreateType::class, $event);
+
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 if (!empty($form['image']->getData()))
@@ -157,7 +161,7 @@ class EventController extends AbstractController
                 }
                 else
                 {
-                    $event->setImage('default.jpg');
+                    $event->setImage($image);
                 }
 
                 if (!empty($form['thumbnail']->getData()))
@@ -168,14 +172,13 @@ class EventController extends AbstractController
                 }
                 else
                 {
-                    $event->setThumbnail('default.jpg');
+                    $event->setThumbnail($thumbnail);
                 }
                 
                 $em->persist($event);
                 $em->flush();
-                $this->addFlash('success', 'Article Updated! Inaccuracies squashed!');
                 return $this->redirectToRoute('event_admin', [
-                    'id' => $event->getId(),
+                    
                 ]);
             }
             return $this->render('event/edit.html.twig', [

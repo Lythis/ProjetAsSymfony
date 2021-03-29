@@ -8,7 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-final class SportFixtures extends Fixture
+final class TypeFixtures extends Fixture
 {
     private $encoder;
 

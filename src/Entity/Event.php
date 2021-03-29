@@ -123,7 +123,7 @@ class Event
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
@@ -135,7 +135,7 @@ class Event
         return $this->thumbnail;
     }
 
-    public function setThumbnail(string $thumbnail): self
+    public function setThumbnail(?string $thumbnail): self
     {
         $this->thumbnail = $thumbnail;
 
