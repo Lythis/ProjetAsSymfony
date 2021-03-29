@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Type;
-use App\Entity\Sport;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;

@@ -2,84 +2,94 @@
 
 
 {% block body %}
-    <div class="row justify-content-center w-100">
-        <div class="col-xl-2 col-lg-2 col-12">
-            <h2 class="align-middle text-center text-break">{{ events|length }} Evénement{% if events|length > 1 %}s{% endif %}</h2>
-        </div>
-        <div class="py-lg-0 py-1 col-xl-3 col-lg-4 col-sm-6 col-12 row">
-            <span class="form-check-label text-center pt-1 col-4">
-                Catégorie :
-            </span>
-            <div class="col-8">
-                <select class="form-control">
-                    <option>Tous</option>
-                </select>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-3 col-lg-3 col-12">
+                <h1 class="align-middle text-center text-break">{{ events|length }} {% if events|length > 1 %}Evénements{% else %}Evénement{% endif %}</h1>
             </div>
-        </div>
-        <div class="py-lg-0 py-1 col-xl-3 col-lg-4 col-sm-6 col-12 row">
-            <span class="form-check-label text-center pt-1 col-4">
-                Sport :
-            </span>
-            <div class="col-8">
-                <select class="form-control">
-                    <option>Tous</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-xl-1 col-lg-1 col-2 form-check">
-            <input class="form-check-input mt-2" type="radio" name="exampleRadios" id="actifs" value="option1" checked>
-            <label class="form-check-label pt-1" for="actifs">
-                Actifs
-            </label>
-        </div>
-        <div class="col-xl-1 col-lg-1 col-2">
-            <button type="button" class="btn btn-primary">Confirmer</button>
-        </div>
-    </div>
-    {% for event in events %}
-        <div class="row my-2 justify-content-center w-100">
-            <div class="col-10 bg-light card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-2 col-12 d-flex justify-content-center">
-                            <img src="../img/{{ event.image }}" style="height: 125px; width:125px;">
+            <div class="col-xl-8 col-lg-9 col-12">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-5 col-md-6 col-12">
+                        <span class="form-check-label text-center">
+                            Catégorie :
+                        </span>
+                        <div class="">
+                            <select class="form-control">
+                                <option>Tous</option>
+                            </select>
                         </div>
-                        <div class="col-lg-10 col-12">
-                            <h2 class="mb-0">{{ event.name }}</h2>
-                            <span class="fs-6 text-muted">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-                                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                                </svg>
-                                {{ event.date|date('d/m/Y') }} |
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
-                                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                    <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
-                                    <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-                                </svg>
-                                {{ event.numberPlace }} place{% if event.numberPlace > 1 %}s{% endif %}
-                                {% if event.sport.id is defined and event.sport.id is not null and event.sport.label == "Hockey sous glace" %} |
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                    {{ random(0, event.numberPlace) }} Morts
-                                {% elseif event.sport.id is defined and event.sport.id is not null and event.sport.label == "Hockey subaquatique" %} |
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                    {{ random(0, event.numberPlace / 2) }} Morts
-                                {% elseif event.sport.id is defined and event.sport.id is not null and event.sport.label == "Chessboxing" %} |
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-half" viewBox="0 0 16 16">
-                                        <path d="M8 2.748v11.047c3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                                    </svg>
-                                    {{ random(0, event.numberPlace) }} Blessés
-                                {% endif %}
-                            </span>
-                            <p class="mt-2 text-break">{{ event.description }}</p>
+                    </div>
+                    <div class="col-xl-4 col-lg-5 col-md-6 col-12">
+                        <span class="form-check-label text-center">
+                            Sport :
+                        </span>
+                        <div class="">
+                            <select class="form-control">
+                                <option>Tous</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-10 col-12 pt-2 form-check">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5 col-md-4 col-sm-3 col-2 pt-3">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="actifs" value="1" checked>
+                                <label class="form-check-label" for="actifs">
+                                    Actifs
+                                </label>
+                            </div>
+                            <div class="col-lg-5 col-md-4 col-sm-3 col-2 pt-2">
+                                <button type="button" class="btn btn-primary">Confirmer</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    {% endfor %}
+        {% for event in events %}
+            <div class="row my-2 justify-content-center">
+                <div class="col-10 bg-light card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-2 col-12 d-flex justify-content-center">
+                                <img src="../img/{{ event.image }}" style="height: 125px; width:125px;">
+                            </div>
+                            <div class="col-lg-10 col-12">
+                                <h2 class="mb-0">{{ event.name }}</h2>
+                                <span class="fs-6 text-muted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                    </svg>
+                                    {{ event.date|date('d/m/Y') }} |
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                        <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                        <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+                                        <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                                    </svg>
+                                    {{ event.numberPlace }} place{% if event.numberPlace > 1 %}s{% endif %}
+                                    {% if event.sport.id is defined and event.sport.id is not null and event.sport.label == "Hockey sous glace" %} |
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                        {{ random(0, event.numberPlace) }} Morts
+                                    {% elseif event.sport.id is defined and event.sport.id is not null and event.sport.label == "Hockey subaquatique" %} |
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                        {{ random(0, event.numberPlace / 2) }} Morts
+                                    {% elseif event.sport.id is defined and event.sport.id is not null and event.sport.label == "Chessboxing" %} |
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-half" viewBox="0 0 16 16">
+                                            <path d="M8 2.748v11.047c3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                        </svg>
+                                        {{ random(0, event.numberPlace) }} Blessés
+                                    {% endif %}
+                                </span>
+                                <p class="mt-2 text-break">{{ event.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
