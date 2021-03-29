@@ -5,8 +5,12 @@
 {% block body %}
 <div class="container">
     <div class="row justify_content_center">
-        <div class="col-6">
-            <h1>Bonjour, {{ app.user.email }} !</h1>
+        <div class="col-10">
+            {% if app.user %}
+                <h1>Bonjour, {{ app.user.email }} !</h1>
+            {% else %}
+                <h1>Inscrivez-vous pour accéder aux évenements!</h1>
+            {% endif %}
         </div>
     </div>
 </div>

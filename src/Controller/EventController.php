@@ -23,6 +23,11 @@ class EventController extends AbstractController
     {
         if ($this->getUser())
         {
+            if ($this->getUser()->getRole() !== 'admin')
+            {
+                return $this->redirectToRoute("event_show");
+            }
+
             $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
 
             return $this->render('event/admin.html.twig', [
@@ -38,11 +43,16 @@ class EventController extends AbstractController
     */
     public function eventShow(): Response
     {
-        $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
+        if ($this->getUser())
+        {
+            $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
 
-        return $this->render('event/show.html.twig', [
-            'events' => $events
-        ]);
+            return $this->render('event/show.html.twig', [
+                'events' => $events
+            ]);
+        }
+
+        return $this->redirectToRoute("app_login");
     }
 
     /**
@@ -50,12 +60,21 @@ class EventController extends AbstractController
     */
     public function adminEventDelete(Event $event): Response
     {
+        if ($this->getUser())
+        {
+            if ($this->getUser()->getRole() !== 'admin')
+            {
+                return $this->redirectToRoute("event_show");
+            }
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($event);
-        $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($event);
+            $entityManager->flush();
 
-        return $this->redirectToRoute("event_admin");
+            return $this->redirectToRoute("event_admin");
+        }
+
+        return $this->redirectToRoute("app_login");
     }
 
     /**
@@ -63,46 +82,56 @@ class EventController extends AbstractController
     */
     public function createEvent(Request $request): Response
     {
-        $event = new Event();
-
-        $form = $this->createForm(EventCreateType::class, $event);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $event = $form->getData();
-
-            if (!empty($form['image']->getData()))
+        if ($this->getUser())
+        {
+            if ($this->getUser()->getRole() !== 'admin')
             {
-                $file = $form['image']->getData();
-                $file->move('img', $file->getClientOriginalName());
-                $event->setImage($file->getClientOriginalName());
-            }
-            else
-            {
-                $event->setImage('default.jpg');
+                return $this->redirectToRoute("event_show");
             }
 
-            if (!empty($form['thumbnail']->getData()))
-            {
-                $file = $form['thumbnail']->getData();
-                $file->move('thumbnail', $file->getClientOriginalName());
-                $event->setThumbnail($file->getClientOriginalName());
-            }
-            else
-            {
-                $event->setThumbnail('default.jpg');
+            $event = new Event();
+
+            $form = $this->createForm(EventCreateType::class, $event);
+
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $event = $form->getData();
+
+                if (!empty($form['image']->getData()))
+                {
+                    $file = $form['image']->getData();
+                    $file->move('img', $file->getClientOriginalName());
+                    $event->setImage($file->getClientOriginalName());
+                }
+                else
+                {
+                    $event->setImage('default.jpg');
+                }
+
+                if (!empty($form['thumbnail']->getData()))
+                {
+                    $file = $form['thumbnail']->getData();
+                    $file->move('thumbnail', $file->getClientOriginalName());
+                    $event->setThumbnail($file->getClientOriginalName());
+                }
+                else
+                {
+                    $event->setThumbnail('default.jpg');
+                }
+
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($event);
+                $manager->flush();
+
+                return $this->redirectToRoute("event_create_page");
             }
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($event);
-            $manager->flush();
-
-            return $this->redirectToRoute("event_create_page");
+            return $this->render('event/create.html.twig', [
+                'eventForm' => $form->createView(),
+            ]);
         }
 
-        return $this->render('event/create.html.twig', [
-            'eventForm' => $form->createView(),
-        ]);
+        return $this->redirectToRoute("app_login");
     }
 
     /**
@@ -110,41 +139,51 @@ class EventController extends AbstractController
     */
     public function editEvent(Event $event, Request $request, EntityManagerInterface $em)
     {
-        $form = $this->createForm(EventCreateType::class, $event);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (!empty($form['image']->getData()))
+        if ($this->getUser())
+        {
+            if ($this->getUser()->getRole() !== 'admin')
             {
-                $file = $form['image']->getData();
-                $file->move('img', $file->getClientOriginalName());
-                $event->setImage($file->getClientOriginalName());
-            }
-            else
-            {
-                $event->setImage('default.jpg');
+                return $this->redirectToRoute("event_show");
             }
 
-            if (!empty($form['thumbnail']->getData()))
-            {
-                $file = $form['thumbnail']->getData();
-                $file->move('thumbnail', $file->getClientOriginalName());
-                $event->setThumbnail($file->getClientOriginalName());
+            $form = $this->createForm(EventCreateType::class, $event);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!empty($form['image']->getData()))
+                {
+                    $file = $form['image']->getData();
+                    $file->move('img', $file->getClientOriginalName());
+                    $event->setImage($file->getClientOriginalName());
+                }
+                else
+                {
+                    $event->setImage('default.jpg');
+                }
+
+                if (!empty($form['thumbnail']->getData()))
+                {
+                    $file = $form['thumbnail']->getData();
+                    $file->move('thumbnail', $file->getClientOriginalName());
+                    $event->setThumbnail($file->getClientOriginalName());
+                }
+                else
+                {
+                    $event->setThumbnail('default.jpg');
+                }
+                
+                $em->persist($event);
+                $em->flush();
+                $this->addFlash('success', 'Article Updated! Inaccuracies squashed!');
+                return $this->redirectToRoute('event_admin', [
+                    'id' => $event->getId(),
+                ]);
             }
-            else
-            {
-                $event->setThumbnail('default.jpg');
-            }
-            
-            $em->persist($event);
-            $em->flush();
-            $this->addFlash('success', 'Article Updated! Inaccuracies squashed!');
-            return $this->redirectToRoute('event_admin', [
-                'id' => $event->getId(),
+            return $this->render('event/edit.html.twig', [
+                'eventForm' => $form->createView()
             ]);
         }
-        return $this->render('event/edit.html.twig', [
-            'eventForm' => $form->createView()
-        ]);
+
+        return $this->redirectToRoute("app_login");
     }
 
     /**
@@ -152,8 +191,18 @@ class EventController extends AbstractController
     */
     public function removeEvent(): Response
     {
-        return $this->render('event/delete.html.twig', [
-            
-        ]);
+        if ($this->getUser())
+        {
+            if ($this->getUser()->getRole() !== 'admin')
+            {
+                return $this->redirectToRoute("event_show");
+            }
+
+            return $this->render('event/delete.html.twig', [
+                
+            ]);
+        }
+
+        return $this->redirectToRoute("app_login");
     }
 }
