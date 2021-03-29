@@ -14,13 +14,13 @@
                     {{ form_row(eventForm.date) }}
                 </div>
                 <div class="mb-2">
+                    {{ form_row(eventForm.type) }}
+                </div>
+                <div class="mb-2">
                     {{ form_row(eventForm.category) }}
                 </div>
                 <div class="mb-2">
                     {{ form_row(eventForm.sport) }}
-                </div>
-                <div class="mb-2">
-                    {{ form_row(eventForm.type) }}
                 </div>
                 <div class="mb-2">
                     {{ form_row(eventForm.image) }}
@@ -34,8 +34,11 @@
                     {{ form_row(eventForm.description) }}
                 </div>
             </div>
-            <div class="mb-2">
+            <div class="mb-2 mt-2">
                 {{ form_row(eventForm.submit) }}
+            </div>
+            <div class="mb-2 mt-1">
+                <span class="text-danger">* Champs obligatoires</span>
             </div>
         </div>
     </div>

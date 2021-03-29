@@ -77,7 +77,7 @@ class EventCreateType extends AbstractType
             ->add('sport', EntityType::class, [
                 'class' => Sport::class,
                 'choice_label' => 'label',
-                'required' => true,
+                'required' => false,
                 'label' => 'Sport associé',
                 'empty_data' => null,
                 'placeholder' => 'Aucun',
@@ -87,18 +87,18 @@ class EventCreateType extends AbstractType
                 'choice_label' => 'label',
                 'required' => true,
                 'label' => 'Type',
-                'empty_data' => null,
-                'placeholder' => 'Aucun',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'label',
-                'required' => true,
+                'required' => false,
                 'label' => 'Catégorie',
                 'empty_data' => null,
-                'placeholder' => 'Aucun',
+                'placeholder' => 'Aucune',
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Envoyer',
+            ])
         ;
     }
 
