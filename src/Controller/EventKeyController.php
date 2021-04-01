@@ -39,7 +39,9 @@ class EventKeyController extends AbstractController
                 $manager->persist($category);
                 $manager->flush();
 
-                return $this->redirectToRoute("category_admin");
+                return $this->redirectToRoute("category_admin", [
+                    'message' => 'Catégorie '.$category->getLabel().' créée avec succès.',
+                ]);
             }
 
             return $this->render('category/create.html.twig', [
@@ -53,13 +55,18 @@ class EventKeyController extends AbstractController
     /**
     * @Route("/category", name="category_admin")
     */
-    public function adminCategory(): Response
+    public function adminCategory(Request $request): Response
     {
         if ($this->getUser())
         {
             if ($this->getUser()->getRole() !== 'admin')
             {
                 return $this->redirectToRoute("event_show");
+            }
+
+            if ($request->query->get('message') !== null)
+            {
+                $this->addFlash('notice', $request->query->get('message'));
             }
 
             $categorys = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -96,7 +103,9 @@ class EventKeyController extends AbstractController
                 $manager->persist($sport);
                 $manager->flush();
 
-                return $this->redirectToRoute("sport_admin");
+                return $this->redirectToRoute("sport_admin", [
+                    'message' => 'Sport '.$sport->getLabel().' créé avec succès.',
+                ]);
             }
 
             return $this->render('sport/create.html.twig', [
@@ -110,13 +119,18 @@ class EventKeyController extends AbstractController
     /**
     * @Route("/sport", name="sport_admin")
     */
-    public function sportShow(): Response
+    public function sportShow(Request $request): Response
     {
         if ($this->getUser())
         {
             if ($this->getUser()->getRole() !== 'admin')
             {
                 return $this->redirectToRoute("event_show");
+            }
+
+            if ($request->query->get('message') !== null)
+            {
+                $this->addFlash('notice', $request->query->get('message'));
             }
 
             $sports = $this->getDoctrine()->getRepository(Sport::class)->findAll();
@@ -158,7 +172,9 @@ class EventKeyController extends AbstractController
             $entityManager->remove($category);
             $entityManager->flush();
 
-            return $this->redirectToRoute("category_admin");
+            return $this->redirectToRoute("category_admin", [
+                'message' => 'Catégorie '.$category->getLabel().' supprimée avec succès.',
+            ]);
         }
 
         return $this->redirectToRoute("app_login");
@@ -193,7 +209,9 @@ class EventKeyController extends AbstractController
             $entityManager->remove($sport);
             $entityManager->flush();
 
-            return $this->redirectToRoute("sport_admin");
+            return $this->redirectToRoute("sport_admin", [
+                'message' => 'Sport '.$sport->getLabel().' supprimé avec succès.',
+            ]);
         }
 
         return $this->redirectToRoute("app_login");

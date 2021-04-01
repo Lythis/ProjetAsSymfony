@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTimeInterface;
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,16 @@ class Student
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SubscriptionEvent::class, mappedBy="student", orphanRemoval=true)
+     */
+    private $subscriptionEvents;
+
+    public function __construct()
+    {
+        $this->subscriptionEvents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,6 +119,36 @@ class Student
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SubscriptionEvent[]
+     */
+    public function getSubscriptionEvents(): Collection
+    {
+        return $this->subscriptionEvents;
+    }
+
+    public function addSubscriptionEvent(SubscriptionEvent $subscriptionEvent): self
+    {
+        if (!$this->subscriptionEvents->contains($subscriptionEvent)) {
+            $this->subscriptionEvents[] = $subscriptionEvent;
+            $subscriptionEvent->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscriptionEvent(SubscriptionEvent $subscriptionEvent): self
+    {
+        if ($this->subscriptionEvents->removeElement($subscriptionEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($subscriptionEvent->setStudent() === $this) {
+                $subscriptionEvent->setStudent(null);
+            }
+        }
 
         return $this;
     }

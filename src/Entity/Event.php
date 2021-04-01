@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -64,6 +66,16 @@ class Event
      * @ORM\JoinColumn(nullable=true)
      */
     private $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SubscriptionEvent::class, mappedBy="event", orphanRemoval=true)
+     */
+    private $subscriptionEvents;
+
+    public function __construct()
+    {
+        $this->subscriptionEvents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -174,6 +186,36 @@ class Event
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SubscriptionEvent[]
+     */
+    public function getSubscriptionEvents(): Collection
+    {
+        return $this->subscriptionEvents;
+    }
+
+    public function addSubscriptionEvent(SubscriptionEvent $subscriptionEvent): self
+    {
+        if (!$this->subscriptionEvents->contains($subscriptionEvent)) {
+            $this->subscriptionEvents[] = $subscriptionEvent;
+            $subscriptionEvent->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscriptionEvent(SubscriptionEvent $subscriptionEvent): self
+    {
+        if ($this->subscriptionEvents->removeElement($subscriptionEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($subscriptionEvent->setEvent() === $this) {
+                $subscriptionEvent->setEvent(null);
+            }
+        }
 
         return $this;
     }

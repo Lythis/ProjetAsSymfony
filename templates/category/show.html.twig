@@ -2,6 +2,11 @@
 
 {% block body %}
 <div class="container">
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="row justify_content_center">
         <table class="table col-sm-11 col-12">
             <thead class="thead-dark">
