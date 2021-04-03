@@ -95,20 +95,20 @@
                                 </span>
                                 <p class="mt-2 text-break">{{ event.description }}</p>
                             </div>
-                            <div class="col-lg-2 col-12">
+                            <div class="col-lg-2 col-12" style="display:grid; place-items: center;">
                                 {% if student is not null %}
                                     {% if event in subscribedEvents %}
-                                        <a class="btn btn-success w-100 subscribeUnsubscribeButton" href="{{ path('event_unsubscribe', {'id':event.id})}}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check-fill" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                        <a class="btn btn-danger w-100 subscribeUnsubscribeButton" href="{{ path('event_unsubscribe', {'id':event.id})}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">' +
+                                                <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
                                                 <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                                             </svg>
-                                            Inscrit
+                                            Désinscription
                                         </a>
                                     {% else %}
                                         {% if numberPlaceRemaining < 1 %}
                                             <span class="d-inline-block w-100" tabindex="0" data-toggle="tooltip" title="Cet événement n'a plus de place disponible. :(">
-                                                <button {% if numberPlaceRemaining < 1 %}disabled{% endif %} style="pointer-events: none;" class="btn btn-primary w-100">
+                                                <button disabled style="pointer-events: none;" class="btn btn-primary w-100">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
                                                         <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                                                         <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
@@ -167,9 +167,15 @@
                 // Not on mobile
                 if (check == false)
                 {
+                    subscribedButton.classList.remove("btn-danger")
+                    subscribedButton.classList.add("btn-success")
+                    let svg = document.getElementById("svg unsubscribe").innerHTML
+
+                    subscribedButton.innerHTML = svg;
+
                     // Add event listener on each button in the list
                     subscribedButton.addEventListener("mouseover", function(event) {
-                        // this == subscribedButton actuel
+                        // this == current subscribedButton
                         this.classList.remove("btn-success")
                         this.classList.add("btn-danger")
                         let svg = document.getElementById("svg subscribed").innerHTML
@@ -178,20 +184,13 @@
                     }, false);
 
                     subscribedButton.addEventListener("mouseleave", function(event) {
-                        // this == subscribedButton actuel
+                        // this == current subscribedButton
                         this.classList.remove("btn-danger")
                         this.classList.add("btn-success")
                         let svg = document.getElementById("svg unsubscribe").innerHTML
 
                         this.innerHTML = svg;
                     }, false);
-                // On mobile
-                } else {
-                    subscribedButton.classList.remove("btn-success")
-                    subscribedButton.classList.add("btn-danger")
-                    let svg = document.getElementById("svg subscribed").innerHTML
-
-                    subscribedButton.innerHTML = svg;
                 }
             }
         }

@@ -8,27 +8,30 @@
         </div>
     {% endfor %}
     <div class="row justify_content_center">
-        <table class="table col-sm-11 col-12">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for sport in sports %}
-                <tr>
-                    <td>{{ sport.id }}</td>
-                    <td>{{ sport.label }}</td>
-                    <td>
-                        <a href="{{ path('sport_delete', {'id':sport.id})}}" class="btn btn-danger">Supprimer</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-    </table>
-    <a href="{{ path('sport_create_page') }}" class="btn btn-primary col-lg-2 col-md-3 col-sm-4 col-6 mb-2">Ajouter un sport</a>
+        <div class="table-responsive">
+            <table class="table col-sm-11 col-12">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sport in sports %}
+                        <tr>
+                            <td class="w-25">{{ sport.id }}</td>
+                            <td class="w-50">{{ sport.label }}</td>
+                            <td class="w-25">
+                                <a href="{{ path('sport_edit', {'id':sport.id})}}" class="btn btn-primary mb-sm-0 mb-1">Modifier</a>
+                                <a href="{{ path('sport_delete', {'id':sport.id})}}" class="btn btn-danger">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{{ path('sport_create_page') }}" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 col-10 m-sm-0 m-auto mb-2">Ajouter un sport</a>
     </div>
 </div>
 {% endblock body %}

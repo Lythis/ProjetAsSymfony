@@ -18,20 +18,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for category in categorys %}
+                    {% for type in types %}
                         <tr>
-                            <td class="w-25">{{ category.id }}</td>
-                            <td class="w-50">{{ category.label }}</td>
+                            <td class="w-25">{{ type.id }}</td>
+                            <td class="w-50">{{ type.label }}</td>
                             <td class="w-25">
-                                <a href="{{ path('category_edit', {'id':category.id})}}" class="btn btn-primary mb-sm-0 mb-1">Modifier</a>
-                                <a href="{{ path('category_delete', {'id':category.id})}}" class="btn btn-danger">Supprimer</a>
+                                <a href="{{ path('type_edit', {'id':type.id})}}" class="btn btn-primary mb-sm-0 mb-1">Modifier</a>
+                                <a href="{{ path('type_delete', {'id':type.id})}}" class="btn btn-danger">Supprimer</a>
                             </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <a href="{{ path('category_create_page') }}" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 col-10 m-sm-0 m-auto mb-2">Ajouter une catégorie</a>
+        <a href="{{ path('type_create_page') }}" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 col-10 m-sm-0 m-auto mb-2">Ajouter un type</a>
     </div>
 </div>
 {% endblock body %}
