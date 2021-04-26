@@ -36,15 +36,22 @@ class InscriptionController extends AbstractController
         $user = new User();
 
         $form = $this->createForm(InscriptionType::class, $user);
-
+        $admins = $this->getDoctrine()->getRepository(User::class)->findBy(
+            array('role' => 'admin'));
         $form->handleRequest($request);
+
+        $emails = array();
+        foreach($admins as $admin)
+        {
+            $emails[] = $admin->getEmail();
+        }
+        dd($emails);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-
             $message = (new \Swift_Message())
             ->setFrom('Groupe6Association@gmail.com')
-            ->setTo('Groupe6Association@gmail.com')
-            ->setSubject('UwU changement de mot de passe O_O')
+            ->setTo($emails)
+            ->setSubject('Demande inscription')
             ->setBody(
                 $this->renderView('email/inscription.html.twig', 
             ),
