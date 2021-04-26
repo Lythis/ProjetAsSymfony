@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-
-use Symfony\Component\HttpFoundation\Session\Session;
+use App\Entity\Event;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +17,19 @@ class HomePageController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('home_page/index.html.twig', [
-            'controller_name' => 'HomePageController',
-        ]);
+        if ($this->getUser())
+        {
+            $events = $this->getDoctrine()->getRepository(Event::class)->findBy(
+                array(),
+                array('date' => 'DESC'),
+                5,
+            );
+
+            return $this->render('home_page/index.html.twig', [
+                'events' => $events,
+            ]);
+        }
+
+        return $this->redirectToRoute("app_login");
     }
 }
-

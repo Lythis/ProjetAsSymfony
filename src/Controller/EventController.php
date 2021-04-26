@@ -53,7 +53,10 @@ class EventController extends AbstractController
     {
         if ($this->getUser())
         {
-            $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
+            $events = $this->getDoctrine()->getRepository(Event::class)->findBy(
+                array(),
+                array('date' => 'DESC'),
+            );
 
             $user = $this->getUser();
             $student = null;
@@ -83,6 +86,50 @@ class EventController extends AbstractController
                 'events' => $events,
                 'student' => $student,
                 'subscribedEvents' => $subscribedEvents,
+            ]);
+        }
+
+        return $this->redirectToRoute("app_login");
+    }
+
+    /**
+    * @Route("/eventshow/{id}", name="event_details")
+    */
+    public function eventDetails(Event $event, Request $request): Response
+    {
+        if ($this->getUser())
+        {
+            $user = $this->getUser();
+            $student = null;
+            $isSubscribed = false;
+            if ($user->getRole() == 'student')
+            {
+                $student = $this->getDoctrine()->getRepository(Student::class)->findOneBy(
+                    array('user' => $user->getId()),
+                );
+
+                $eventSubscription = $this->getDoctrine()->getRepository(SubscriptionEvent::class)->findBy(
+                    array(
+                        'student' => $student,
+                        'event' => $event,
+                    ),
+                );
+
+                if (!empty($eventSubscription))
+                {
+                    $isSubscribed = true;
+                }
+            }
+
+            if ($request->query->get('message') !== null)
+            {
+                $this->addFlash('notice', $request->query->get('message'));
+            }
+
+            return $this->render('event/details.html.twig', [
+                'event' => $event,
+                'student' => $student,
+                'isSubscribed' => $isSubscribed,
             ]);
         }
 
