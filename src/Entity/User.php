@@ -49,7 +49,12 @@ class User implements UserInterface
      * @var \DateTime
      */
     private $passwordRequestedAt;
-
+    
+        
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isEnabled;
 
     /**
      * @var string The hashed plainPassword
@@ -61,6 +66,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $role;
+
+     /**
+     * @ORM\Column(type="integer")
+     */
+    private $status;
 
     public function getId(): ?int
     {
@@ -175,6 +185,24 @@ class User implements UserInterface
     public function setRole(string $role): self
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function isEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    
+    public function getStatus(): bool
+    {
+        return $this->status;
+    }
+    
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
