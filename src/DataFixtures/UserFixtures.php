@@ -27,7 +27,9 @@ final class UserFixtures extends Fixture
             $user = new User();
             $student = new Student();
 
-            $user->setPassword($this->encoder->encodePassword($user, 12345));
+            $user->setPassword($this->encoder->encodePassword($user, 12345))
+            ->setStatus(1);
+
             
             array_push($userList, $user);
             $manager->persist($user);
@@ -56,7 +58,9 @@ final class UserFixtures extends Fixture
 
             $admin->setEmail('user-admin-'.($i + 1).'@gmail.com')
             ->setPassword($this->encoder->encodePassword($admin, 'root'))
-            ->setRole('admin');
+            ->setRole('admin')
+            ->setStatus(1);
+
 
             $manager->persist($admin);
         }

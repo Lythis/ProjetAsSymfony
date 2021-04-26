@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify_content_center">
+        <table class="table col-sm-11 col-12">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <th scope="row">{{ user.id }}</th>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <a href="{{ path('user_accept', {'id':user.id})}}" class="btn btn-danger">Accepter</a>
+                        <a href="{{ path('user_deny', {'id':user.id})}}" class="btn btn-primary">Refuser</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+    </table>
+    </div>
+</div>
+{% endblock body %}
