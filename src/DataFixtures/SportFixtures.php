@@ -18,16 +18,16 @@ final class TypeFixtures extends Fixture
     }
     public function load(ObjectManager $manager)
     {
-        $sports = ["Chessboxing", "Tennis", "Hockey subaquatique", "Cheese rolling", "Swamp football", "Hockey sous glace"];
+        // $sports = ["Chessboxing", "Tennis", "Hockey subaquatique", "Cheese rolling", "Swamp football", "Hockey sous glace"];
 
-        foreach ($sports as $sportLabel)
-        {
-            $sport = new Sport();
+        // foreach ($sports as $sportLabel)
+        // {
+        //     $sport = new Sport();
 
-            $sport->setLabel($sportLabel);
-            $manager->persist($sport);
-        }
+        //     $sport->setLabel($sportLabel);
+        //     $manager->persist($sport);
+        // }
 
-        $manager->flush();
+        // $manager->flush();
     }
 }

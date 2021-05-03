@@ -19,6 +19,11 @@ class HomePageController extends AbstractController
     {
         if ($this->getUser())
         {
+            if ($this->getUser()->getIsEnabled() == 0)
+            {
+                return $this->redirectToRoute("not_connected");
+            }
+            
             $events = $this->getDoctrine()->getRepository(Event::class)->findBy(
                 array(),
                 array('date' => 'DESC'),

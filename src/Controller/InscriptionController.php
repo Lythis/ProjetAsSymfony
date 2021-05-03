@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Entity\Category;
+use App\Entity\Student;
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -37,7 +38,8 @@ class InscriptionController extends AbstractController
 
         $form = $this->createForm(InscriptionType::class, $user);
         $admins = $this->getDoctrine()->getRepository(User::class)->findBy(
-            array('role' => 'admin'));
+            array('role' => 'admin')
+        );
         $form->handleRequest($request);
 
         $emails = array();
@@ -55,21 +57,24 @@ class InscriptionController extends AbstractController
                 ->setBody(
                     $this->renderView('email/inscription.html.twig', 
                 ),
-            'text/html'
-        );        
+                'text/html'
+            );        
 
-        $this->swiftMailer->send($message);
-
-
+            $this->swiftMailer->send($message);
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user
-                ->setPassword($password)
+            $user->setPassword($password)
                 ->setRole("student")
                 ->setPasswordRequestedAt(new DateTime());            
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
+
+            $student = new Student();
+            $student->setUser($user);
+            $manager->persist($student);
+            $manager->flush();
         };
+
         return $this->render('security/inscription.html.twig', [
             'inscriptionForm' => $form->createView(),
         ]);

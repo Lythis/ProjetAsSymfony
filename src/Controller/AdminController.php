@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Student;
 use App\Entity\User;
 use App\Form\EventCreateType;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,7 +63,13 @@ class AdminController extends AbstractController
             {
                 return $this->redirectToRoute("event_show");
             }
+
+            $student = $this->getDoctrine()->getRepository(Student::class)->findOneBy(
+                array('user' => $user->getId()),
+            );
+
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($student);
             $entityManager->remove($user);
             $entityManager->flush();
 
@@ -75,7 +82,7 @@ class AdminController extends AbstractController
      /**
     * @Route("/request/accept/{id}", name="user_accept")
     */
-    public function adminUserAccept(User $user,MailerInterface $mailer): Response
+    public function adminUserAccept(User $user): Response
     {
         if ($this->getUser())
         {
@@ -85,7 +92,7 @@ class AdminController extends AbstractController
             }
 
             $entityManager = $this->getDoctrine()->getManager();
-            $user->setStatus(1);
+            $user->setIsEnabled(1);
             $entityManager->flush();
 
             $message = (new \Swift_Message())
