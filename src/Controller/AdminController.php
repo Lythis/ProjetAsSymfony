@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Student;
+use App\Form\StudentType;
 use App\Entity\User;
 use App\Form\EventCreateType;
 use Symfony\Component\HttpFoundation\Response;
@@ -106,6 +107,65 @@ class AdminController extends AbstractController
             $this->swiftMailer->send($message);
 
             return $this->redirectToRoute("user_ask");
+        }
+
+        return $this->redirectToRoute("app_login");
+    }
+
+    
+    /**
+    * @Route("/student", name="user_list")
+    */
+    public function studentShow(Request $request): Response
+    {
+        if ($this->getUser())
+        {
+            if ($this->getUser()->getIsEnabled() == 0)
+            {
+                return $this->redirectToRoute("not_connected");
+            }
+
+            if ($request->query->get('message') !== null)
+            {
+                $this->addFlash('notice', $request->query->get('message'));
+            }
+            
+            $students = $this->getDoctrine()->getRepository(Student::class)->findAll();
+
+            return $this->render('admin/eleve.html.twig', [
+                'students' => $students,
+            ]);
+        }
+    }
+
+   
+    /**
+    * @Route("/student/edit/{id}", name="user_edit")
+    */
+    public function studentEdit(Student $student, Request $request, EntityManagerInterface $em)
+    {
+        if ($this->getUser())
+        {
+            if ($this->getUser()->getRole() !== 'admin')
+            {
+                return $this->redirectToRoute("event_show");
+            }
+
+            $form = $this->createForm(StudentType::class, $student);
+
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em->persist($student);
+                $em->flush();
+
+                return $this->redirectToRoute("user_list", [
+                    'message' => 'Elève '.$student->getFirstName().' modifié avec succès.',
+                ]);
+            }
+
+            return $this->render('user/modify.html.twig', [
+                'studentForm' => $form->createView(),
+            ]);
         }
 
         return $this->redirectToRoute("app_login");
