@@ -36,17 +36,19 @@ class AdminController extends AbstractController
             {
                 return $this->redirectToRoute("event_show");
             }
+
+            $users = $this->getDoctrine()->getRepository(User::class)->findBy(
+                array(  
+                    'isEnabled' => 0,
+                    'role' => 'student'
+                ));
+                
+            return $this->render('admin/request.html.twig', [
+                'users' => $users
+            ]);
         }
 
-        $users = $this->getDoctrine()->getRepository(User::class)->findBy(
-            array(  
-                'isEnabled' => 0,
-                'role' => 'student'
-            ));
-
-        return $this->render('admin/request.html.twig', [
-            'users' => $users
-        ]);
+         return $this->redirectToRoute("app_login");
     }
 
     /**
@@ -57,10 +59,6 @@ class AdminController extends AbstractController
         if ($this->getUser())
         {
             if ($this->getUser()->getRole() !== 'admin')
-            {
-                return $this->redirectToRoute("event_show");
-            }
-            if ($this->getUser()->getIsEnabled == 0)
             {
                 return $this->redirectToRoute("event_show");
             }

@@ -2,7 +2,7 @@
 {% block body %}
     {{ form_start(inscriptionForm) }}
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-6 col-12">
                 <div class="mb-2">
                     {{ form_row(inscriptionForm.email) }}
@@ -12,6 +12,9 @@
                 </div>
                 <div class="mb-2">
                     {{ form_row(inscriptionForm.submit) }}
+                </div>
+                <div class="mb-2 mt-1">
+                    <span class="text-danger">* Champs obligatoires</span>
                 </div>
             </div>
         </div>
