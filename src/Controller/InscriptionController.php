@@ -28,55 +28,87 @@ class InscriptionController extends AbstractController
         $this->swiftMailer = $swiftMailer;
     }
 
-    
      /**
      * @Route("/inscription", name="app_inscription")
      */
-    public function inscription(Request $request, UserPasswordEncoderInterface $passwordEncoder, MailerInterface $mailer):  Response
+    public function inscription(Request $request, UserPasswordEncoderInterface $passwordEncoder, MailerInterface $mailer): Response
     {
-        $user = new User();
-
-        $form = $this->createForm(InscriptionType::class, $user);
-        $admins = $this->getDoctrine()->getRepository(User::class)->findBy(
-            array('role' => 'admin')
-        );
-        $form->handleRequest($request);
-
-        $emails = array();
-        foreach($admins as $admin)
+        if (!$this->getUser())
         {
-            $emails[] = $admin->getEmail();
+            $user = new User();
+
+            $form = $this->createForm(InscriptionType::class, $user);
+            $admins = $this->getDoctrine()->getRepository(User::class)->findBy(
+                array('role' => 'admin')
+            );
+            $form->handleRequest($request);
+
+            $emails = array();
+            foreach($admins as $admin)
+            {
+                $emails[] = $admin->getEmail();
+            }
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $user = $form->getData();
+                $user->setIsEnabled(false);
+                $message = (new \Swift_Message())
+                    ->setFrom('Groupe6Association@gmail.com')
+                    ->setTo($emails)
+                    ->setSubject('Demande inscription')
+                    ->setBody(
+                        $this->renderView('email/inscription.html.twig',
+                    ),
+                    'text/html'
+                );        
+
+                $this->swiftMailer->send($message);
+                $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+                $user->setPassword($password)
+                    ->setRole("student")
+                    ->setPasswordRequestedAt(new DateTime());            
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($user);
+                $manager->flush();
+
+                $student = new Student();
+                $student->setUser($user);
+                $manager->persist($student);
+                $manager->flush();
+
+                $this->addFlash('notice', 'Demande d\'inscription envoyée.');
+
+                return $this->render('security/inscription.html.twig', [
+                    'inscriptionForm' => $form->createView(),
+                ]);
+            }
+            elseif ($form->isSubmitted() && !$form->isValid())
+            {
+                $this->addFlash('noticeWarning', 'Erreur. Veuillez vérifier les informations renseignées.');
+
+                return $this->render('security/inscription.html.twig', [
+                    'inscriptionForm' => $form->createView(),
+                ]);
+            }
+
+            return $this->render('security/inscription.html.twig', [
+                'inscriptionForm' => $form->createView(),
+            ]);
         }
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-            $user->setIsEnabled(false);
-            $message = (new \Swift_Message())
-                ->setFrom('Groupe6Association@gmail.com')
-                ->setTo($emails)
-                ->setSubject('Demande inscription')
-                ->setBody(
-                    $this->renderView('email/inscription.html.twig', 
-                ),
-                'text/html'
-            );        
+        
+        if ($this->getUser()->getIsEnabled() == 0)
+        {
+            return $this->redirectToRoute("not_connected");
+        }
+        
+        $events = $this->getDoctrine()->getRepository(Event::class)->findBy(
+            array(),
+            array('date' => 'DESC'),
+            5,
+        );
 
-            $this->swiftMailer->send($message);
-            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password)
-                ->setRole("student")
-                ->setPasswordRequestedAt(new DateTime());            
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($user);
-            $manager->flush();
-
-            $student = new Student();
-            $student->setUser($user);
-            $manager->persist($student);
-            $manager->flush();
-        };
-
-        return $this->render('security/inscription.html.twig', [
-            'inscriptionForm' => $form->createView(),
+        return $this->render('home_page/index.html.twig', [
+            'events' => $events,
         ]);
     }
 

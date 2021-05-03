@@ -28,14 +28,18 @@ class AdminController extends AbstractController
     /**
     * @Route("/request/pending", name="user_ask")
     */
-    public function adminEvent(): Response
+    public function userAsk(Request $request): Response
     {
-
         if ($this->getUser())
         {
             if ($this->getUser()->getRole() !== 'admin')
             {
                 return $this->redirectToRoute("event_show");
+            }
+
+            if ($request->query->get('message') !== null)
+            {
+                $this->addFlash('notice', $request->query->get('message'));
             }
 
             $users = $this->getDoctrine()->getRepository(User::class)->findBy(
@@ -73,7 +77,9 @@ class AdminController extends AbstractController
             $entityManager->remove($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute("user_ask");
+            return $this->redirectToRoute("user_ask", [
+                'message' => 'Demande pour l\'utilisateur '.$user->getEmail().' rejetée.',
+            ]);
         }
 
         return $this->redirectToRoute("app_login");
@@ -105,7 +111,9 @@ class AdminController extends AbstractController
 
             $this->swiftMailer->send($message);
 
-            return $this->redirectToRoute("user_ask");
+            return $this->redirectToRoute("user_ask", [
+                'message' => 'Demande pour l\'utilisateur '.$user->getEmail().' acceptée.',
+            ]);
         }
 
         return $this->redirectToRoute("app_login");

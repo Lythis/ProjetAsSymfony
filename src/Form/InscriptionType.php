@@ -21,11 +21,13 @@ class InscriptionType extends AbstractType
             ->add('email', TextType::class)
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'first_options'  => array('label' => 'Mot de passe'),
+                'first_options'  => array('label' => 'Mot de passe (doit contenir une majuscule, un caractère spécial et 8 caractères minimum)'),
                 'second_options' => array('label' => 'Répéter mot de passe')
                 
             ))
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Envoyer',
+            ])
         ;
     }
 

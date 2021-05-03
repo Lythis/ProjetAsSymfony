@@ -1,23 +1,33 @@
 {% extends "base.html.twig" %}
 {% block body %}
+<div class="container">
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('noticeWarning') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     {{ form_start(inscriptionForm) }}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-12">
-                <div class="mb-2">
-                    {{ form_row(inscriptionForm.email) }}
-                </div>
-                <div class="mb-2">
-                    {{ form_row(inscriptionForm.plainPassword) }}
-                </div>
-                <div class="mb-2">
-                    {{ form_row(inscriptionForm.submit) }}
-                </div>
-                <div class="mb-2 mt-1">
-                    <span class="text-danger">* Champs obligatoires</span>
-                </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-12">
+            <div class="mb-2">
+                {{ form_row(inscriptionForm.email) }}
+            </div>
+            <div class="mb-2">
+                {{ form_row(inscriptionForm.plainPassword) }}
+            </div>
+            <div class="mb-2">
+                {{ form_row(inscriptionForm.submit) }}
+            </div>
+            <div class="mb-2 mt-1">
+                <span class="text-danger">* Champs obligatoires</span>
             </div>
         </div>
     </div>
     {{ form_end(inscriptionForm) }}
+</div>
 {% endblock %}
