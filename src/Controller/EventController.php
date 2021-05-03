@@ -51,6 +51,11 @@ class EventController extends AbstractController
     */
     public function eventShow(Request $request): Response
     {
+        if ($this->getUser()->getIsEnabled() == 0)
+        {
+            return $this->redirectToRoute("not_connected");
+        }
+
         if ($this->getUser())
         {
             $events = $this->getDoctrine()->getRepository(Event::class)->findBy(
@@ -97,6 +102,11 @@ class EventController extends AbstractController
     */
     public function eventDetails(Event $event, Request $request): Response
     {
+        if ($this->getUser()->getIsEnabled() == 0)
+        {
+            return $this->redirectToRoute("not_connected");
+        }
+
         if ($this->getUser())
         {
             $user = $this->getUser();
@@ -165,6 +175,12 @@ class EventController extends AbstractController
     */
     public function eventSubscribe(Event $event): Response
     {
+
+        if ($this->getUser()->getIsEnabled() == 0)
+        {
+            return $this->redirectToRoute("not_connected");
+        }
+
         if ($this->getUser())
         {
             if ($this->getUser()->getRole() !== 'student')
@@ -199,6 +215,11 @@ class EventController extends AbstractController
     */
     public function eventUnsubscribe(Event $event): Response
     {
+        if ($this->getUser()->getIsEnabled() == 0)
+        {
+            return $this->redirectToRoute("not_connected");
+        }
+
         if ($this->getUser())
         {
             if ($this->getUser()->getRole() !== 'student')

@@ -96,6 +96,11 @@ class EventCreateType extends AbstractType
                 'empty_data' => null,
                 'placeholder' => 'Aucune',
             ])
+            ->add('dateEnd', DateType::class, [
+                'widget' => 'single_text',
+                'required' => true,
+                'label' => 'Date de fin',
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',
             ])

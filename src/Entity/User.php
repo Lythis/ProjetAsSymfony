@@ -67,11 +67,17 @@ class User implements UserInterface
      */
     private $role;
 
-     /**
-     * @ORM\Column(type="integer")
-     */
-    private $status;
 
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
+    }
+   
+    public function setIsEnabled($isEnabled)
+    {
+       $this->isEnabled = $isEnabled;
+    }
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -191,7 +197,7 @@ class User implements UserInterface
 
     public function isEnabled(): ?bool
     {
-        return $this->isEnabled;
+        return $this->getIsEnabled();
     }
 
     

@@ -10,12 +10,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 /**
  * @Route("")
  */
 class AdminController extends AbstractController
 {
+
+    public function __construct(\Swift_Mailer $swiftMailer)
+    {
+        $this->swiftMailer = $swiftMailer;
+    }
+
     /**
     * @Route("/request/pending", name="user_ask")
     */
@@ -31,7 +39,10 @@ class AdminController extends AbstractController
         }
 
         $users = $this->getDoctrine()->getRepository(User::class)->findBy(
-        array('status' => 0));
+            array(  
+                'isEnabled' => 0,
+                'role' => 'student'
+            ));
 
         return $this->render('admin/request.html.twig', [
             'users' => $users
@@ -46,6 +57,10 @@ class AdminController extends AbstractController
         if ($this->getUser())
         {
             if ($this->getUser()->getRole() !== 'admin')
+            {
+                return $this->redirectToRoute("event_show");
+            }
+            if ($this->getUser()->getIsEnabled == 0)
             {
                 return $this->redirectToRoute("event_show");
             }

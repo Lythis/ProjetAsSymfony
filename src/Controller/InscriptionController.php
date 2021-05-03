@@ -45,16 +45,16 @@ class InscriptionController extends AbstractController
         {
             $emails[] = $admin->getEmail();
         }
-        dd($emails);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+            $user->setIsEnabled(false);
             $message = (new \Swift_Message())
-            ->setFrom('Groupe6Association@gmail.com')
-            ->setTo($emails)
-            ->setSubject('Demande inscription')
-            ->setBody(
-                $this->renderView('email/inscription.html.twig', 
-            ),
+                ->setFrom('Groupe6Association@gmail.com')
+                ->setTo($emails)
+                ->setSubject('Demande inscription')
+                ->setBody(
+                    $this->renderView('email/inscription.html.twig', 
+                ),
             'text/html'
         );        
 
@@ -63,10 +63,9 @@ class InscriptionController extends AbstractController
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user
-                    ->setPassword($password)
-                    ->setStatus(0)
-                    ->setRole("student")
-                    ->setPasswordRequestedAt(new DateTime());            
+                ->setPassword($password)
+                ->setRole("student")
+                ->setPasswordRequestedAt(new DateTime());            
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
@@ -74,5 +73,13 @@ class InscriptionController extends AbstractController
         return $this->render('security/inscription.html.twig', [
             'inscriptionForm' => $form->createView(),
         ]);
+    }
+
+     /**
+     * @Route("/validation", name="not_connected")
+     */
+    public function notConnected(): Response
+    {
+        return $this->render('security/notConnected.html.twig');
     }
 }

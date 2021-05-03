@@ -72,6 +72,12 @@ class Event
      */
     private $subscriptionEvents;
 
+     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateEnd;
+
+
     public function __construct()
     {
         $this->subscriptionEvents = new ArrayCollection();
@@ -117,6 +123,20 @@ class Event
 
         return $this;
     }
+
+    
+    public function getDateEnd()
+    {
+        return $this->dateEnd;
+    }
+
+    public function setDateEnd( $dateEnd): ?self
+    {
+        $this->dateEnd = $dateEnd;
+
+        return $this;
+    }
+
 
     public function getNumberPlace(): ?int
     {

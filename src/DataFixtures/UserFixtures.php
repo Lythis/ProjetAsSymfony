@@ -27,17 +27,15 @@ final class UserFixtures extends Fixture
             $user = new User();
             $student = new Student();
 
-            $user->setPassword($this->encoder->encodePassword($user, 12345))
-            ->setStatus(1);
-
+            $user->setPassword($this->encoder->encodePassword($user, 12345));
             
             array_push($userList, $user);
             $manager->persist($user);
 
             $student->setFirstName('Jean'.($i + 1))
-            ->setLastName('Louis'.($i + 1))
-            ->setBirthDate($this->getRandomDate())
-            ->setUser($user);
+                ->setLastName('Louis'.($i + 1))
+                ->setBirthDate($this->getRandomDate())
+                ->setUser($user);
             array_push($studentList, $student);
 
             $manager->persist($student);
@@ -47,8 +45,8 @@ final class UserFixtures extends Fixture
         {
             $user = $userList[$key];
             $user->setEmail($student->getFirstName().$student->getLastName().'@gmail.com')
-            ->setRole('student');
-
+                ->setRole('student')
+                ->setIsEnabled(0);
             $manager->persist($user);
         }
 
@@ -57,11 +55,9 @@ final class UserFixtures extends Fixture
             $admin = new User();
 
             $admin->setEmail('user-admin-'.($i + 1).'@gmail.com')
-            ->setPassword($this->encoder->encodePassword($admin, 'root'))
-            ->setRole('admin')
-            ->setStatus(1);
-
-
+                ->setPassword($this->encoder->encodePassword($admin, 'root'))
+                ->setRole('admin')
+                ->setIsEnabled(1);
             $manager->persist($admin);
         }
 
