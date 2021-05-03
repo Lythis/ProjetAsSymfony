@@ -8,7 +8,7 @@ Composer version : **1.10.10**
 **Users :**
 
 Student :
-- Email : **Jean-1Louis1@gmail.com**
+- Email : **Jean1Louis1@gmail.com**
 - Password : **12345**
 
 Admin :
