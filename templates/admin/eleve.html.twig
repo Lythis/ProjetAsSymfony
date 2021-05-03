@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container">
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row justify_content_center mb-2">
+        <div class="table-responsive">
+            <table class="table col-sm-11 col-12">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Utilisateur concerné</th>
+                        <th scope="col">Prenom</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <th scope="row">{{ student.id }}</th>
+                            <td>{{ student.user.email }}</td>
+                            <td>{{ student.firstName }}</td>
+                            <td>{{ student.lastName }}</td>
+                            {% if student.category is not null %}
+                                <td>{{ student.category.label }}</td>
+                            {% else %}
+                                <td> Toutes </td>
+                            {% endif %}
+                            
+                            <td>
+                                <a href="{{ path('user_edit', {'id':student.id})}}" class="btn btn-primary">Modifier</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock body %}
