@@ -41,8 +41,8 @@ final class SportFixtures extends Fixture
             $event->setNumberPlace(rand(1, 100));
             $event->setDate($dateNow);
             $event->setDateEnd($dateEnd);
-            $event->setImage("default.jpg");
-            $event->setThumbnail("default.jpg");
+            $event->setImage("default.png");
+            $event->setThumbnail("default.png");
             $event->setSport($sport);
             $manager->persist($event);
         }

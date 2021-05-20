@@ -10,9 +10,9 @@
                 <h2 class="text-center">Bonjour, {{ app.user.email }} ! Voici les derniers évenements postés.</h2>
                 {% for event in events %}
                     {% set numberPlaceRemaining = event.numberPlace - event.subscriptionEvents|length %}
-                    {% set injuredCount = random(0, event.numberPlace) %}
+                    {# {% set injuredCount = random(0, event.numberPlace) %}
                     {% set deathCount = random(0, event.numberPlace) %}
-                    {% set deathCountHalf = random(0, event.numberPlace / 2) %}
+                    {% set deathCountHalf = random(0, event.numberPlace / 2) %} #}
                     <div class="row my-2 justify-content-center">
                         <div class="col-10 bg-light card">
                             <div class="card-body">
@@ -34,7 +34,7 @@
                                                 <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
                                             </svg>
                                             {{ event.numberPlace }} {% if event.numberPlace > 1 %}places{% else %}place{% endif %} - {{ numberPlaceRemaining }} {% if numberPlaceRemaining > 1 %}disponibles{% else %}disponible{% endif %}
-                                            {% if event.sport.id is defined and event.sport.id is not null and event.sport.label == "Hockey sous glace" %} |
+                                            {# {% if event.sport.id is defined and event.sport.id is not null and event.sport.label == "Hockey sous glace" %} |
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
                                                 </svg>
@@ -49,7 +49,7 @@
                                                     <path d="M8 2.748v11.047c3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
                                                 </svg>
                                                 {{ injuredCount }} {% if injuredCount > 1 %}Blessés{% else %}Blessé{% endif %}
-                                            {% endif %}
+                                            {% endif %} #}
                                         </span>
                                         <p class="mt-2 text-break">{{ event.description }}</p>
                                     </div>

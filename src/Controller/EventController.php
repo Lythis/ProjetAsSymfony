@@ -279,7 +279,7 @@ class EventController extends AbstractController
                 }
                 else
                 {
-                    $event->setImage('default.jpg');
+                    $event->setImage('default.png');
                 }
 
                 if (!empty($form['thumbnail']->getData()))
@@ -290,7 +290,7 @@ class EventController extends AbstractController
                 }
                 else
                 {
-                    $event->setThumbnail('default.jpg');
+                    $event->setThumbnail('default.png');
                 }
 
                 $manager = $this->getDoctrine()->getManager();
