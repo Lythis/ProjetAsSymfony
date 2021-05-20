@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="container">
-{% for message in app.flashes('notice') %}
+    {% for message in app.flashes('notice') %}
         <div class="alert alert-success">
             {{ message }}
         </div>

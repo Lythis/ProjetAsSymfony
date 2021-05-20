@@ -164,7 +164,7 @@ class ResetPasswordController extends AbstractController
         $message = (new \Swift_Message())
             ->setFrom('Groupe6Association@gmail.com')
             ->setTo($user->getEmail())
-            ->setSubject('UwU changement de mot de passe O_O')
+            ->setSubject('Changement de mot de passe')
             ->setBody(
                 $this->renderView('reset_password/email.html.twig', 
                 ['resetToken' => $resetToken]
